@@ -676,16 +676,16 @@ cache_access(struct cache_t *cp,	/* cache to access */
   if (udata)
     *udata = repl->user_data;
 
+  /* update RRPV to long re-reference interval */
+  unsigned int max_RRPV = (1 << (cp->width_RRPV)) - 1;
+  repl->RRPV = max_RRPV - 1;
+
   /* update block status */
   repl->ready = now+lat;
 
   /* link this entry back into the hash table */
   if (cp->hsize)
     link_htab_ent(cp, &cp->sets[set], repl);
-
-  /* update RRPV to long re-reference interval */
-  unsigned int max_RRPV = (1 << (cp->width_RRPV)) - 1;
-  repl->RRPV = max_RRPV - 1;
 
   /* return latency of the operation */
   return lat;
