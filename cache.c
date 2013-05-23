@@ -613,6 +613,9 @@ cache_access(struct cache_t *cp,	/* cache to access */
 				}
 			}
 		} while (victim_found == 0);
+  	/* update RRPV to long re-reference interval */
+//  	unsigned int max_RRPV = (1 << (cp->width_RRPV)) - 1;
+  	repl->RRPV = max_RRPV - 1;
 	}
 	break;
   default:
@@ -676,10 +679,6 @@ cache_access(struct cache_t *cp,	/* cache to access */
   if (udata)
     *udata = repl->user_data;
 
-  /* update RRPV to long re-reference interval */
-  unsigned int max_RRPV = (1 << (cp->width_RRPV)) - 1;
-  repl->RRPV = max_RRPV - 1;
-
   /* update block status */
   repl->ready = now+lat;
 
@@ -713,10 +712,12 @@ cache_access(struct cache_t *cp,	/* cache to access */
       update_way_list(&cp->sets[set], blk, Head);
     }
 
-	/* Hit-Priority Policy */
+	/* Frequency-Priority Policy */
 	if (cp->policy == RRIP)
 	{
-		blk->RRPV = 0;
+		if ( blk->RRPV > 0 ) {
+				blk->RRPV --;
+		}
 	}
 
   /* tag is unchanged, so hash links (if they exist) are still valid */
@@ -748,6 +749,12 @@ cache_access(struct cache_t *cp,	/* cache to access */
     blk->status |= CACHE_BLK_DIRTY;
 
   /* this block hit last, no change in the way list */
+
+	/* Hit-Priority Policy */
+	if (cp->policy == RRIP)
+	{
+		blk->RRPV = 0;
+	}
 
   /* tag is unchanged, so hash links (if they exist) are still valid */
 
