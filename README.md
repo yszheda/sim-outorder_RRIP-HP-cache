@@ -31,6 +31,7 @@ Example:
 -cache:dl2             ul2:512:64:8:3:R
 ```
 
+Please further refer to a complete example configuration file _default-256K-8.RRIP.cfg_.
 ## Compilation ##
 
 ```bash
@@ -40,4 +41,4 @@ make sim-outorder
 ```
 
 
-[1] Jaleel A, Theobald K B, Steely Jr S C, et al. High performance cache replacement using re-reference interval prediction (RRIP)[C]//ACM SIGARCH Computer Architecture News. ACM, 2010, 38(3): 60-71.
+[1]: Jaleel A, Theobald K B, Steely Jr S C, et al. High performance cache replacement using re-reference interval prediction (RRIP)[C]//ACM SIGARCH Computer Architecture News. ACM, 2010, 38(3): 60-71.
